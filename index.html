@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#D32F2F">
-    <title>Auto Escola Premium</title>
+    <title>CFC Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <style>
         :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
         
+        /* HEADER COM O SLOGAN DA BIO */
         header { background: linear-gradient(135deg, var(--dark-color) 0%, #333 100%); color: var(--white); text-align: center; padding: 40px 20px; border-bottom: 5px solid var(--primary-color); }
         h1 { margin: 0; font-size: 1.8em; text-transform: uppercase; letter-spacing: 2px; }
-        p.subtitle { margin-top: 10px; font-size: 1em; color: #ddd; }
+        p.subtitle { margin-top: 10px; font-size: 1.1em; color: #ddd; font-style: italic; }
         .hero-banner { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-top: 20px; font-weight: bold; border: 1px solid var(--primary-color); color: #fff; }
         
         main { max-width: 1100px; margin: 0 auto; padding: 20px; }
@@ -29,14 +30,14 @@
         #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         
-        /* --- MUDANÇA AQUI: IMAGEM NÃO CORTA MAIS --- */
+        /* IMAGEM AJUSTADA (NÃO CORTA) */
         .card-img { 
             width: 100%; 
             height: 200px; 
-            background-color: #fff; /* Fundo branco se a imagem não preencher tudo */
-            background-size: contain; /* Faz a imagem caber inteira sem cortar */
-            background-position: center; /* Centraliza a imagem */
-            background-repeat: no-repeat; /* Não repete */
+            background-color: #fff; 
+            background-size: contain; 
+            background-position: center; 
+            background-repeat: no-repeat; 
             border-bottom: 1px solid #eee;
         }
         
@@ -47,14 +48,26 @@
         .card-installments { font-size: 0.9em; color: #666; font-weight: normal; }
         
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
+
+        /* RODAPÉ NOVO (DIADEMA) */
+        footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
+        .insta-btn { 
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+            color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; 
+            font-weight: bold; display: inline-flex; align-items: center; gap: 10px; 
+            margin-bottom: 20px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+        }
+        .address-info { color: #ccc; font-size: 0.95em; line-height: 1.6; }
+        .address-info i { color: var(--primary-color); margin-right: 5px; }
     </style>
 </head>
 <body>
     <header>
-        <h1><i class="fas fa-car-side"></i> Auto Escola Premium</h1>
-        <p class="subtitle">Sua Habilitação com Segurança e Facilidade.</p>
-        <div class="hero-banner">💳 Parcelamos em até 12x no Cartão</div>
+        <h1><i class="fas fa-car-side"></i> CFC Premium</h1>
+        <p class="subtitle">"Mais de 20 anos realizando sonhos."</p>
+        <div class="hero-banner">🚦 Transformando sonhos em CNH</div>
     </header>
+
     <main>
         <div class="alert-section">
             <div class="alert-title"><i class="fas fa-exclamation-triangle"></i> Atenção: Fim da Autoescola?</div>
@@ -72,6 +85,17 @@
         
         <div id="products-grid"><p style="text-align:center; width:100%; color:#777">Carregando serviços...</p></div>
     </main>
+
+    <footer>
+        <a href="https://instagram.com/cfcpremium" target="_blank" class="insta-btn">
+            <i class="fab fa-instagram"></i> Siga @cfcpremium
+        </a>
+        <div class="address-info">
+            <p><i class="fas fa-map-marker-alt"></i> Rua João Theodoro Genesi, 125</p>
+            <p>Diadema - São Paulo</p>
+            <p style="margin-top:15px; font-size:0.8em; opacity:0.6">© 2026 CFC Premium • Aprovação Garantida</p>
+        </div>
+    </footer>
     
     <a href="https://wa.me/5511947222028" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
     
