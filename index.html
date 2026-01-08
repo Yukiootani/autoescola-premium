@@ -11,133 +11,73 @@
         :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
         
-        /* HEADER */
-        header { 
-            background-color: #ffffff; 
-            color: #333; 
-            text-align: center; 
-            padding: 0;
-            border-bottom: 5px solid var(--primary-color); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-        }
-        
-        /* LOGO CROP */
-        .logo-crop {
-            height: 140px;
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .logo-img { 
-            width: 95%;         
-            max-width: 450px;
-            margin-top: -30px;    
-            margin-bottom: -30px; 
-            transform: scale(1.1);
-            display: block; 
-        }
-
-        p.subtitle { 
-            margin-top: 0px;
-            margin-bottom: 15px;
-            font-size: 1.0em; 
-            color: #666; 
-            font-style: italic; 
-            font-weight: 500;
-        }
-
-        .hero-banner { 
-            background: var(--dark-color); 
-            padding: 10px; 
-            border-radius: 8px; 
-            margin: 0 20px 20px 20px; 
-            font-weight: bold; 
-            border: 1px solid var(--primary-color); 
-            color: #fff; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            font-size: 0.95em;
-        }
-        
+        header { background-color: #ffffff; color: #333; text-align: center; padding: 0; border-bottom: 5px solid var(--primary-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; }
+        .logo-crop { height: 140px; width: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
+        .logo-img { width: 95%; max-width: 450px; margin-top: -30px; margin-bottom: -30px; transform: scale(1.1); display: block; }
+        p.subtitle { margin-top: 0px; margin-bottom: 15px; font-size: 1.0em; color: #666; font-style: italic; font-weight: 500; }
+        .hero-banner { background: var(--dark-color); padding: 10px; border-radius: 8px; margin: 0 20px 20px 20px; font-weight: bold; border: 1px solid var(--primary-color); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); font-size: 0.95em; }
         main { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
-        /* CARROSSEL DE DÚVIDAS */
-        .carousel-container {
-            background: #fff;
+        /* --- NOVO CARROSSEL DE VÍDEO --- */
+        .video-carousel-container {
+            background: #000;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             margin-bottom: 30px;
             overflow: hidden;
-            border-left: 6px solid var(--primary-color);
+            border: 3px solid var(--primary-color);
             position: relative;
-            height: 140px; 
+            height: 220px; /* Altura maior para o vídeo */
         }
 
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-        }
-
-        .carousel-slide {
+        .carousel-track { display: flex; transition: transform 0.5s ease-in-out; height: 100%; }
+        
+        .video-slide {
             min-width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .faq-question {
-            color: var(--primary-color);
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* O vídeo roda no fundo */
+        .video-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Faz o vídeo preencher tudo sem distorcer */
+            opacity: 0.6; /* Deixa o vídeo mais escuro para ler o texto */
         }
 
-        .faq-answer {
-            font-size: 0.95em;
-            line-height: 1.4;
-            color: #555;
-        }
-
-        /* Indicadores */
-        .carousel-indicators {
+        /* O texto fica por cima do vídeo */
+        .video-overlay-text {
             position: absolute;
-            bottom: 10px;
+            bottom: 20px;
             left: 0;
             right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 5px;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; transition: 0.3s; }
+
+        .faq-question.video-title { color: #ff4d4d; font-size: 1.3em; margin-bottom: 5px; }
+        .faq-answer.video-desc { font-size: 1.1em; color: #eee; font-weight: 500; }
+
+        .carousel-indicators { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; z-index: 10; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); transition: 0.3s; }
         .dot.active { background: var(--primary-color); width: 20px; border-radius: 10px; }
 
-        /* OUTROS CSS */
+        /* OUTROS CSS IGUAIS */
         #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
         .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
         .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
-        
         #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
-        
         .card-img { width: 100%; height: 200px; background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; border-bottom: 1px solid #eee; }
         .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title { font-size: 1.2em; font-weight: bold; margin: 0 0 5px; color: var(--dark-color); }
         .card-badge { display: inline-block; background: #eee; font-size: 0.8em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; width: fit-content; }
         .card-price { font-size: 1.4em; font-weight: bold; color: var(--primary-color); margin-top: auto; }
         .card-installments { font-size: 0.9em; color: #666; font-weight: normal; }
-        
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
-
         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
         .insta-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4); }
         .address-info { color: #ccc; font-size: 0.95em; line-height: 1.6; }
@@ -147,37 +87,42 @@
 </head>
 <body>
     <header>
-        <div class="logo-crop">
-            <img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img">
-        </div>
+        <div class="logo-crop"><img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img"></div>
         <p class="subtitle">"Mais de 20 anos realizando sonhos."</p>
-        <div class="hero-banner">🚦 Transformando sonhos em CNH</div>
+        <div class="hero-banner">🚦 A Lei Mudou? Escolha a Segurança!</div>
     </header>
 
     <main>
-        <div class="carousel-container">
+        <div class="video-carousel-container">
             <div class="carousel-track" id="carouselTrack">
                 
-                <div class="carousel-slide">
-                    <div class="faq-question"><i class="fas fa-exclamation-triangle"></i> Fim da Autoescola?</div>
-                    <div class="faq-answer"><strong>Isso é Fake News!</strong> O PL ainda não foi aprovado. O processo continua obrigatório por lei. Não espere as taxas aumentarem, garanta sua CNH agora.</div>
+                <div class="video-slide">
+                    <video class="video-bg" autoplay muted loop playsinline src="https://res.cloudinary.com/demo/video/upload/v1690000000/driving_danger_example.mp4"></video>
+                    <div class="video-overlay-text">
+                        <div class="faq-question video-title"><i class="fas fa-skull-crossbones"></i> O Barato sai Caro</div>
+                        <div class="faq-answer video-desc">Aprender sem pedal duplo é um risco de vida. Não arrisque sua família.</div>
+                    </div>
                 </div>
 
-                <div class="carousel-slide">
-                    <div class="faq-question"><i class="fas fa-credit-card"></i> Formas de Pagamento?</div>
-                    <div class="faq-answer">Facilitamos tudo! Aceitamos <strong>Crédito, Débito e Boleto</strong>. Parcelamos em até 12x no cartão. Consulte condições.</div>
+                <div class="video-slide">
+                    <video class="video-bg" autoplay muted loop playsinline src="https://res.cloudinary.com/demo/video/upload/v1690000000/driving_safe_example.mp4"></video>
+                    <div class="video-overlay-text">
+                        <div class="faq-question video-title"><i class="fas fa-shield-alt"></i> Segurança Total</div>
+                        <div class="faq-answer video-desc">Na Premium, carros novos com duplo comando e instrutores credenciados.</div>
+                    </div>
                 </div>
 
-                <div class="carousel-slide">
-                    <div class="faq-question"><i class="fas fa-clock"></i> Quanto tempo demora?</div>
-                    <div class="faq-answer">Em média de 3 a 4 meses. Tudo depende da sua disponibilidade para as aulas. Nós agilizamos toda a burocracia para você.</div>
+                <div class="video-slide">
+                    <video class="video-bg" autoplay muted loop playsinline src="https://res.cloudinary.com/demo/video/upload/v1690000000/happy_driver_example.mp4"></video>
+                    <div class="video-overlay-text">
+                        <div class="faq-question video-title"><i class="fas fa-check-circle"></i> Passe de Primeira</div>
+                        <div class="faq-answer video-desc">Quem aprende com profissionais, não passa sufoco na prova prática.</div>
+                    </div>
                 </div>
             </div>
 
             <div class="carousel-indicators">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+                <div class="dot active"></div><div class="dot"></div><div class="dot"></div>
             </div>
         </div>
         
@@ -195,23 +140,16 @@
     </main>
 
     <footer>
-        <a href="https://www.instagram.com/autoescolapremiumdiadema?igsh=aHBzMW4wemFlNnJ2" target="_blank" class="insta-btn">
-            <i class="fab fa-instagram"></i> Siga @autoescolapremiumdiadema
-        </a>
-        
+        <a href="https://www.instagram.com/autoescolapremiumdiadema" target="_blank" class="insta-btn"><i class="fab fa-instagram"></i> Siga @autoescolapremiumdiadema</a>
         <div class="address-info">
             <p><i class="fas fa-map-marker-alt"></i> Rua João Theodoro Genesi, 125</p>
             <p>Diadema - São Paulo</p>
-            
             <div class="horario-box">
                 <p><i class="far fa-clock"></i> <strong>Horário de Atendimento:</strong></p>
                 <p style="font-size:0.9em">Seg a Sex: 8h às 18h</p>
                 <p style="font-size:0.9em">Sábado: 8h às 12h</p>
             </div>
-            
-            <p style="margin-top:20px; font-size:0.9em; opacity:0.8">
-                <i class="fas fa-phone"></i> (11) 4056-1402 / 94142-7564
-            </p>
+            <p style="margin-top:20px; font-size:0.9em; opacity:0.8"><i class="fas fa-phone"></i> (11) 4056-1402 / 94142-7564</p>
             <p style="margin-top:10px; font-size:0.7em; opacity:0.5">© 2026 CFC Premium</p>
         </div>
     </footer>
@@ -225,39 +163,29 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
-        // CARROSSEL JS
+        // CARROSSEL DE VÍDEO JS
         const track = document.getElementById('carouselTrack');
         const dots = document.querySelectorAll('.dot');
         let slideIndex = 0;
         const totalSlides = 3;
-
         function rotateSlide() {
             slideIndex = (slideIndex + 1) % totalSlides;
             track.style.transform = `translateX(-${slideIndex * 100}%)`;
             dots.forEach(d => d.classList.remove('active'));
             dots[slideIndex].classList.add('active');
         }
-        setInterval(rotateSlide, 4500);
+        setInterval(rotateSlide, 5000); // 5 segundos por vídeo
 
         // BUSCA FIREBASE
         const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
         let currentSecao='todos';
-        
         async function fetchServices(){
             grid.innerHTML='<p style="text-align:center; width:100%">Buscando planos...</p>';
             let q=db.collection("products").orderBy("createdAt","desc");
             if(currentSecao!=='todos') q=q.where("secao","==",currentSecao);
             try{ 
-                const snap=await q.get(); 
-                grid.innerHTML=''; 
-                if(snap.empty){grid.innerHTML='<p style="text-align:center; width:100%">Nenhum serviço encontrado.</p>';return;}
-                snap.forEach(doc=>{ 
-                    const p=doc.data(); 
-                    const price=p.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); 
-                    const parcela=(p.price/12).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                    let badge=''; if(p.isFeatured==='destaque') badge='<span style="background:#ffd700; padding:2px 6px; border-radius:4px; font-size:0.8em; font-weight:bold; margin-bottom:5px">⭐ OFERTA</span>';
-                    grid.innerHTML+=`<a href="detalhes.html?id=${doc.id}" class="service-card"><div class="card-img" style="background-image: url('${p.imageUrl}')"></div><div class="card-body">${badge}<div class="card-title">${p.name}</div><div class="card-badge">${p.secao.toUpperCase()}</div><div class="card-price">${price}</div><div class="card-installments">ou 12x de ${parcela}</div></div></a>`; 
-                });
+                const snap=await q.get(); grid.innerHTML=''; if(snap.empty){grid.innerHTML='<p style="text-align:center; width:100%">Nenhum serviço encontrado.</p>';return;}
+                snap.forEach(doc=>{ const p=doc.data(); const price=p.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); const parcela=(p.price/12).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); let badge=''; if(p.isFeatured==='destaque') badge='<span style="background:#ffd700; padding:2px 6px; border-radius:4px; font-size:0.8em; font-weight:bold; margin-bottom:5px">⭐ OFERTA</span>'; grid.innerHTML+=`<a href="detalhes.html?id=${doc.id}" class="service-card"><div class="card-img" style="background-image: url('${p.imageUrl}')"></div><div class="card-body">${badge}<div class="card-title">${p.name}</div><div class="card-badge">${p.secao.toUpperCase()}</div><div class="card-price">${price}</div><div class="card-installments">ou 12x de ${parcela}</div></div></a>`; });
             }catch(e){grid.innerHTML='Erro ao carregar.'}
         }
         buttons.forEach(btn=>{ btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSecao=btn.dataset.secao;fetchServices()})});
