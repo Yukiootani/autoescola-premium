@@ -11,7 +11,7 @@
         :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
         
-        /* HEADER BRANCO */
+        /* HEADER */
         header { 
             background-color: #ffffff; 
             color: #333; 
@@ -22,7 +22,7 @@
             overflow: hidden;
         }
         
-        /* RECORTE DO LOGO */
+        /* LOGO CROP */
         .logo-crop {
             height: 140px;
             width: 100%;
@@ -65,7 +65,7 @@
         
         main { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
-        /* --- NOVO: CARROSSEL DE DÚVIDAS (FAQ) --- */
+        /* CARROSSEL DE DÚVIDAS */
         .carousel-container {
             background: #fff;
             border-radius: 10px;
@@ -74,7 +74,7 @@
             overflow: hidden;
             border-left: 6px solid var(--primary-color);
             position: relative;
-            height: 140px; /* Altura fixa para não ficar pulando */
+            height: 140px; 
         }
 
         .carousel-track {
@@ -108,7 +108,7 @@
             color: #555;
         }
 
-        /* Indicadores (Bolinhas) */
+        /* Indicadores */
         .carousel-indicators {
             position: absolute;
             bottom: 10px;
@@ -118,16 +118,10 @@
             justify-content: center;
             gap: 5px;
         }
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #ccc;
-            transition: 0.3s;
-        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; transition: 0.3s; }
         .dot.active { background: var(--primary-color); width: 20px; border-radius: 10px; }
 
-        /* OUTROS ESTILOS */
+        /* OUTROS CSS */
         #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
         .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
         .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
@@ -148,6 +142,7 @@
         .insta-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4); }
         .address-info { color: #ccc; font-size: 0.95em; line-height: 1.6; }
         .address-info i { color: var(--primary-color); margin-right: 5px; }
+        .horario-box { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-top: 15px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -170,7 +165,7 @@
 
                 <div class="carousel-slide">
                     <div class="faq-question"><i class="fas fa-credit-card"></i> Formas de Pagamento?</div>
-                    <div class="faq-answer">Facilitamos para você! Parcelamos sua habilitação em até <strong>12x no Cartão de Crédito</strong>. Consulte as condições pelo WhatsApp.</div>
+                    <div class="faq-answer">Facilitamos tudo! Aceitamos <strong>Crédito, Débito e Boleto</strong>. Parcelamos em até 12x no cartão. Consulte condições.</div>
                 </div>
 
                 <div class="carousel-slide">
@@ -191,6 +186,7 @@
             <button class="secao-button" data-secao="carro">Carro (B)</button>
             <button class="secao-button" data-secao="moto">Moto (A)</button>
             <button class="secao-button" data-secao="combo">Carro + Moto</button>
+            <button class="secao-button" data-secao="onibus">Ônibus (D)</button>
             <button class="secao-button" data-secao="adicao">Adição</button>
             <button class="secao-button" data-secao="renovacao">Renovação</button>
         </div>
@@ -199,13 +195,24 @@
     </main>
 
     <footer>
-        <a href="https://www.instagram.com/autoescolapremiumdiademar?igsh=c3pkNXdycjJuY2Fu" target="_blank" class="insta-btn">
+        <a href="https://www.instagram.com/autoescolapremiumdiadema?igsh=aHBzMW4wemFlNnJ2" target="_blank" class="insta-btn">
             <i class="fab fa-instagram"></i> Siga @autoescolapremiumdiadema
         </a>
+        
         <div class="address-info">
             <p><i class="fas fa-map-marker-alt"></i> Rua João Theodoro Genesi, 125</p>
             <p>Diadema - São Paulo</p>
-            <p style="margin-top:15px; font-size:0.8em; opacity:0.6">© 2026 CFC Premium • Aprovação Garantida</p>
+            
+            <div class="horario-box">
+                <p><i class="far fa-clock"></i> <strong>Horário de Atendimento:</strong></p>
+                <p style="font-size:0.9em">Seg a Sex: 8h às 18h</p>
+                <p style="font-size:0.9em">Sábado: 8h às 12h</p>
+            </div>
+            
+            <p style="margin-top:20px; font-size:0.9em; opacity:0.8">
+                <i class="fas fa-phone"></i> (11) 4056-1402 / 94142-7564
+            </p>
+            <p style="margin-top:10px; font-size:0.7em; opacity:0.5">© 2026 CFC Premium</p>
         </div>
     </footer>
     
@@ -218,7 +225,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
-        // LÓGICA DO CARROSSEL
+        // CARROSSEL JS
         const track = document.getElementById('carouselTrack');
         const dots = document.querySelectorAll('.dot');
         let slideIndex = 0;
@@ -227,16 +234,12 @@
         function rotateSlide() {
             slideIndex = (slideIndex + 1) % totalSlides;
             track.style.transform = `translateX(-${slideIndex * 100}%)`;
-            
-            // Atualiza as bolinhas
             dots.forEach(d => d.classList.remove('active'));
             dots[slideIndex].classList.add('active');
         }
-
-        // Roda a cada 4.5 segundos
         setInterval(rotateSlide, 4500);
 
-        // BUSCA DE SERVIÇOS
+        // BUSCA FIREBASE
         const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
         let currentSecao='todos';
         
@@ -257,7 +260,6 @@
                 });
             }catch(e){grid.innerHTML='Erro ao carregar.'}
         }
-        
         buttons.forEach(btn=>{ btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSecao=btn.dataset.secao;fetchServices()})});
         document.addEventListener('DOMContentLoaded',fetchServices);
     </script>
