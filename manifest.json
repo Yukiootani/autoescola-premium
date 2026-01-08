@@ -1,12 +1,20 @@
 {
-  "name": "Auto Escola Premium",
-  "short_name": "Premium CFC",
+  "name": "CFC Premium",
+  "short_name": "Premium",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#D32F2F",
   "icons": [
-    { "src": "https://i.imgur.com/2K1zXw7.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "https://i.imgur.com/2K1zXw7.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
