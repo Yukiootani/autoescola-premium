@@ -11,26 +11,32 @@
         :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
         
-        /* HEADER COM O SLOGAN DA BIO */
+        /* HEADER */
         header { background: linear-gradient(135deg, var(--dark-color) 0%, #333 100%); color: var(--white); text-align: center; padding: 40px 20px; border-bottom: 5px solid var(--primary-color); }
-        h1 { margin: 0; font-size: 1.8em; text-transform: uppercase; letter-spacing: 2px; }
-        p.subtitle { margin-top: 10px; font-size: 1.1em; color: #ddd; font-style: italic; }
+        
+        /* LOGO ESTILIZADO */
+        .logo-img { max-height: 120px; max-width: 90%; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto; }
+
+        p.subtitle { margin-top: 5px; font-size: 1.1em; color: #ddd; font-style: italic; }
         .hero-banner { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-top: 20px; font-weight: bold; border: 1px solid var(--primary-color); color: #fff; }
         
         main { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
+        /* ALERTAS (MITOS) */
         .alert-section { background: #fff; border-left: 5px solid var(--primary-color); padding: 20px; margin-bottom: 30px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .alert-title { color: var(--primary-color); font-weight: bold; font-size: 1.1em; display: flex; align-items: center; gap: 10px; }
         .alert-body { margin-top: 10px; font-size: 0.95em; line-height: 1.5; color: #555; }
         
+        /* FILTROS */
         #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
         .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
         .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
         
+        /* GRID DE PRODUTOS */
         #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         
-        /* IMAGEM AJUSTADA (NÃO CORTA) */
+        /* IMAGEM AJUSTADA (CONTAIN) */
         .card-img { 
             width: 100%; 
             height: 200px; 
@@ -49,7 +55,7 @@
         
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
 
-        /* RODAPÉ NOVO (DIADEMA) */
+        /* RODAPÉ (DIADEMA) */
         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
         .insta-btn { 
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
@@ -63,7 +69,8 @@
 </head>
 <body>
     <header>
-        <h1><i class="fas fa-car-side"></i> CFC Premium</h1>
+        <img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img">
+        
         <p class="subtitle">"Mais de 20 anos realizando sonhos."</p>
         <div class="hero-banner">🚦 Transformando sonhos em CNH</div>
     </header>
@@ -102,6 +109,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script>
+        // CONFIGURAÇÃO FIREBASE (AUTO ESCOLA PREMIUM)
         const firebaseConfig = { 
             apiKey: "AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk", 
             authDomain: "auto-escola-premium.firebaseapp.com", 
