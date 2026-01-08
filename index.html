@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#D32F2F">
+    <title>Auto Escola Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
+        header { background: linear-gradient(135deg, var(--dark-color) 0%, #333 100%); color: var(--white); text-align: center; padding: 40px 20px; border-bottom: 5px solid var(--primary-color); }
+        h1 { margin: 0; font-size: 1.8em; text-transform: uppercase; letter-spacing: 2px; }
+        p.subtitle { margin-top: 10px; font-size: 1em; color: #ddd; }
+        .hero-banner { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-top: 20px; font-weight: bold; border: 1px solid var(--primary-color); color: #fff; }
+        main { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .alert-section { background: #fff; border-left: 5px solid var(--primary-color); padding: 20px; margin-bottom: 30px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .alert-title { color: var(--primary-color); font-weight: bold; font-size: 1.1em; display: flex; align-items: center; gap: 10px; }
+        .alert-body { margin-top: 10px; font-size: 0.95em; line-height: 1.5; color: #555; }
+        #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
+        .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
+        .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .card-img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.2em; font-weight: bold; margin: 0 0 5px; color: var(--dark-color); }
+        .card-badge { display: inline-block; background: #eee; font-size: 0.8em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; width: fit-content; }
+        .card-price { font-size: 1.4em; font-weight: bold; color: var(--primary-color); margin-top: auto; }
+        .card-installments { font-size: 0.9em; color: #666; font-weight: normal; }
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-car-side"></i> Auto Escola Premium</h1>
+        <p class="subtitle">Sua Habilitação com Segurança e Facilidade.</p>
+        <div class="hero-banner">💳 Parcelamos em até 12x no Cartão</div>
+    </header>
+    <main>
+        <div class="alert-section">
+            <div class="alert-title"><i class="fas fa-exclamation-triangle"></i> Atenção: Fim da Autoescola?</div>
+            <div class="alert-body"><strong>Mito ou Verdade?</strong> O Projeto de Lei sobre o fim da obrigatoriedade das aulas ainda está em análise e <u>não foi aprovado</u>. O processo continua obrigatório por lei. Não coloque sua vida em pausa. Garanta sua CNH agora e evite o aumento das taxas anuais.</div>
+        </div>
+        <div id="secao-filters">
+            <button class="secao-button active" data-secao="todos">Todos</button>
+            <button class="secao-button" data-secao="carro">Carro (B)</button>
+            <button class="secao-button" data-secao="moto">Moto (A)</button>
+            <button class="secao-button" data-secao="combo">Carro + Moto</button>
+            <button class="secao-button" data-secao="adicao">Adição</button>
+            <button class="secao-button" data-secao="renovacao">Renovação</button>
+        </div>
+        <div id="products-grid"><p style="text-align:center; width:100%; color:#777">Carregando serviços...</p></div>
+    </main>
+    <a href="https://wa.me/5511947222028" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk", authDomain: "auto-escola-premium.firebaseapp.com", projectId: "auto-escola-premium", storageBucket: "auto-escola-premium.firebasestorage.app", messagingSenderId: "100515126742", appId: "1:100515126742:web:88069eb81308bded8e1877" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
+        let currentSecao='todos';
+        async function fetchServices(){
+            grid.innerHTML='<p style="text-align:center; width:100%">Buscando planos...</p>';
+            let q=db.collection("products").orderBy("createdAt","desc");
+            if(currentSecao!=='todos') q=q.where("secao","==",currentSecao);
+            try{ const snap=await q.get(); grid.innerHTML=''; if(snap.empty){grid.innerHTML='<p style="text-align:center; width:100%">Nenhum serviço.</p>';return;}
+                snap.forEach(doc=>{ const p=doc.data(); const price=p.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); const parcela=(p.price/12).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+                let badge=''; if(p.isFeatured==='destaque') badge='<span style="background:#ffd700; padding:2px 6px; border-radius:4px; font-size:0.8em; font-weight:bold; margin-bottom:5px">⭐ OFERTA</span>';
+                grid.innerHTML+=`<a href="detalhes.html?id=${doc.id}" class="service-card"><div class="card-img" style="background-image: url('${p.imageUrl}')"></div><div class="card-body">${badge}<div class="card-title">${p.name}</div><div class="card-badge">${p.secao.toUpperCase()}</div><div class="card-price">${price}</div><div class="card-installments">ou 12x de ${parcela}</div></div></a>`; });
+            }catch(e){grid.innerHTML='Erro ao carregar.'}}
+        buttons.forEach(btn=>{ btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSecao=btn.dataset.secao;fetchServices()})});
+        document.addEventListener('DOMContentLoaded',fetchServices);
+    </script>
+</body>
+</html>
