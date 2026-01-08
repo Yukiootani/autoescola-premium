@@ -11,22 +11,22 @@
         :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
         
-        /* HEADER BRANCO - Agora compacto */
+        /* HEADER BRANCO */
         header { 
             background-color: #ffffff; 
             color: #333; 
             text-align: center; 
-            padding: 0; /* Removi o padding para economizar espaço */
+            padding: 0;
             border-bottom: 5px solid var(--primary-color); 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             overflow: hidden;
         }
         
-        /* --- O TRUQUE DO RECORTE (CROP) --- */
+        /* RECORTE DO LOGO */
         .logo-crop {
-            height: 140px; /* Define o retângulo (1/4 da tela aprox) */
+            height: 140px;
             width: 100%;
-            overflow: hidden; /* Corta o que sobrar de branco em cima/embaixo */
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -34,17 +34,16 @@
         }
 
         .logo-img { 
-            width: 95%;         /* Mantém a largura (Texto grande) */
+            width: 95%;         
             max-width: 450px;
-            /* As margens negativas "comem" o espaço em branco da imagem */
             margin-top: -30px;    
             margin-bottom: -30px; 
-            transform: scale(1.1); /* Leve zoom para garantir leitura */
+            transform: scale(1.1);
             display: block; 
         }
 
         p.subtitle { 
-            margin-top: 0px; /* Colei no logo */
+            margin-top: 0px;
             margin-bottom: 15px;
             font-size: 1.0em; 
             color: #666; 
@@ -66,10 +65,69 @@
         
         main { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
-        .alert-section { background: #fff; border-left: 5px solid var(--primary-color); padding: 20px; margin-bottom: 30px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .alert-title { color: var(--primary-color); font-weight: bold; font-size: 1.1em; display: flex; align-items: center; gap: 10px; }
-        .alert-body { margin-top: 10px; font-size: 0.95em; line-height: 1.5; color: #555; }
-        
+        /* --- NOVO: CARROSSEL DE DÚVIDAS (FAQ) --- */
+        .carousel-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-left: 6px solid var(--primary-color);
+            position: relative;
+            height: 140px; /* Altura fixa para não ficar pulando */
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .faq-question {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-answer {
+            font-size: 0.95em;
+            line-height: 1.4;
+            color: #555;
+        }
+
+        /* Indicadores (Bolinhas) */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ccc;
+            transition: 0.3s;
+        }
+        .dot.active { background: var(--primary-color); width: 20px; border-radius: 10px; }
+
+        /* OUTROS ESTILOS */
         #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
         .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
         .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
@@ -77,16 +135,7 @@
         #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         
-        .card-img { 
-            width: 100%; 
-            height: 200px; 
-            background-color: #fff; 
-            background-size: contain; 
-            background-position: center; 
-            background-repeat: no-repeat; 
-            border-bottom: 1px solid #eee;
-        }
-        
+        .card-img { width: 100%; height: 200px; background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; border-bottom: 1px solid #eee; }
         .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title { font-size: 1.2em; font-weight: bold; margin: 0 0 5px; color: var(--dark-color); }
         .card-badge { display: inline-block; background: #eee; font-size: 0.8em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; width: fit-content; }
@@ -96,12 +145,7 @@
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
 
         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
-        .insta-btn { 
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
-            color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; 
-            font-weight: bold; display: inline-flex; align-items: center; gap: 10px; 
-            margin-bottom: 20px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
-        }
+        .insta-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4); }
         .address-info { color: #ccc; font-size: 0.95em; line-height: 1.6; }
         .address-info i { color: var(--primary-color); margin-right: 5px; }
     </style>
@@ -111,15 +155,35 @@
         <div class="logo-crop">
             <img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img">
         </div>
-        
         <p class="subtitle">"Mais de 20 anos realizando sonhos."</p>
         <div class="hero-banner">🚦 Transformando sonhos em CNH</div>
     </header>
 
     <main>
-        <div class="alert-section">
-            <div class="alert-title"><i class="fas fa-exclamation-triangle"></i> Atenção: Fim da Autoescola?</div>
-            <div class="alert-body"><strong>Mito ou Verdade?</strong> O Projeto de Lei sobre o fim da obrigatoriedade das aulas ainda está em análise e <u>não foi aprovado</u>. O processo continua obrigatório por lei. Não coloque sua vida em pausa. Garanta sua CNH agora e evite o aumento das taxas anuais.</div>
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                
+                <div class="carousel-slide">
+                    <div class="faq-question"><i class="fas fa-exclamation-triangle"></i> Fim da Autoescola?</div>
+                    <div class="faq-answer"><strong>Isso é Fake News!</strong> O PL ainda não foi aprovado. O processo continua obrigatório por lei. Não espere as taxas aumentarem, garanta sua CNH agora.</div>
+                </div>
+
+                <div class="carousel-slide">
+                    <div class="faq-question"><i class="fas fa-credit-card"></i> Formas de Pagamento?</div>
+                    <div class="faq-answer">Facilitamos para você! Parcelamos sua habilitação em até <strong>12x no Cartão de Crédito</strong>. Consulte as condições pelo WhatsApp.</div>
+                </div>
+
+                <div class="carousel-slide">
+                    <div class="faq-question"><i class="fas fa-clock"></i> Quanto tempo demora?</div>
+                    <div class="faq-answer">Em média de 3 a 4 meses. Tudo depende da sua disponibilidade para as aulas. Nós agilizamos toda a burocracia para você.</div>
+                </div>
+            </div>
+
+            <div class="carousel-indicators">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
         </div>
         
         <div id="secao-filters">
@@ -150,17 +214,29 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script>
-        const firebaseConfig = { 
-            apiKey: "AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk", 
-            authDomain: "auto-escola-premium.firebaseapp.com", 
-            projectId: "auto-escola-premium", 
-            storageBucket: "auto-escola-premium.firebasestorage.app", 
-            messagingSenderId: "100515126742", 
-            appId: "1:100515126742:web:88069eb81308bded8e1877" 
-        };
+        const firebaseConfig = { apiKey: "AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk", authDomain: "auto-escola-premium.firebaseapp.com", projectId: "auto-escola-premium", storageBucket: "auto-escola-premium.firebasestorage.app", messagingSenderId: "100515126742", appId: "1:100515126742:web:88069eb81308bded8e1877" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
+        // LÓGICA DO CARROSSEL
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.dot');
+        let slideIndex = 0;
+        const totalSlides = 3;
+
+        function rotateSlide() {
+            slideIndex = (slideIndex + 1) % totalSlides;
+            track.style.transform = `translateX(-${slideIndex * 100}%)`;
+            
+            // Atualiza as bolinhas
+            dots.forEach(d => d.classList.remove('active'));
+            dots[slideIndex].classList.add('active');
+        }
+
+        // Roda a cada 4.5 segundos
+        setInterval(rotateSlide, 4500);
+
+        // BUSCA DE SERVIÇOS
         const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
         let currentSecao='todos';
         
@@ -168,42 +244,21 @@
             grid.innerHTML='<p style="text-align:center; width:100%">Buscando planos...</p>';
             let q=db.collection("products").orderBy("createdAt","desc");
             if(currentSecao!=='todos') q=q.where("secao","==",currentSecao);
-            
             try{ 
                 const snap=await q.get(); 
                 grid.innerHTML=''; 
                 if(snap.empty){grid.innerHTML='<p style="text-align:center; width:100%">Nenhum serviço encontrado.</p>';return;}
-                
                 snap.forEach(doc=>{ 
                     const p=doc.data(); 
                     const price=p.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); 
                     const parcela=(p.price/12).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
                     let badge=''; if(p.isFeatured==='destaque') badge='<span style="background:#ffd700; padding:2px 6px; border-radius:4px; font-size:0.8em; font-weight:bold; margin-bottom:5px">⭐ OFERTA</span>';
-                    
-                    grid.innerHTML+=`
-                    <a href="detalhes.html?id=${doc.id}" class="service-card">
-                        <div class="card-img" style="background-image: url('${p.imageUrl}')"></div>
-                        <div class="card-body">
-                            ${badge}
-                            <div class="card-title">${p.name}</div>
-                            <div class="card-badge">${p.secao.toUpperCase()}</div>
-                            <div class="card-price">${price}</div>
-                            <div class="card-installments">ou 12x de ${parcela}</div>
-                        </div>
-                    </a>`; 
+                    grid.innerHTML+=`<a href="detalhes.html?id=${doc.id}" class="service-card"><div class="card-img" style="background-image: url('${p.imageUrl}')"></div><div class="card-body">${badge}<div class="card-title">${p.name}</div><div class="card-badge">${p.secao.toUpperCase()}</div><div class="card-price">${price}</div><div class="card-installments">ou 12x de ${parcela}</div></div></a>`; 
                 });
             }catch(e){grid.innerHTML='Erro ao carregar.'}
         }
         
-        buttons.forEach(btn=>{ 
-            btn.addEventListener('click',()=>{
-                buttons.forEach(b=>b.classList.remove('active'));
-                btn.classList.add('active');
-                currentSecao=btn.dataset.secao;
-                fetchServices()
-            })
-        });
-        
+        buttons.forEach(btn=>{ btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSecao=btn.dataset.secao;fetchServices()})});
         document.addEventListener('DOMContentLoaded',fetchServices);
     </script>
 </body>
