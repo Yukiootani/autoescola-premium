@@ -11,40 +11,40 @@
         :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
         
-        /* HEADER - FUNDO BRANCO (Para o Logo Azul aparecer) */
+        /* HEADER BRANCO */
         header { 
             background-color: #ffffff; 
             color: #333; 
             text-align: center; 
-            padding: 30px 20px; 
+            padding: 20px 0; /* Removi o padding lateral para o logo crescer mais */
             border-bottom: 5px solid var(--primary-color); 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow: hidden; /* Evita que o logo estoure a tela se for muito grande */
         }
         
-        /* LOGO AUMENTADO E CENTRALIZADO */
+        /* --- LOGO GIGANTE (AJUSTE FINAL) --- */
         .logo-img { 
-            max-height: 160px; /* Bem grande para ler fácil */
-            max-width: 95%; 
-            margin-bottom: 10px; 
+            width: 90%;         /* Força ocupar 90% da largura da tela */
+            max-width: 400px;   /* Limite máximo para tablets/PC */
+            height: auto;       /* Altura automática para não distorcer */
             display: block; 
-            margin-left: auto; 
-            margin-right: auto; 
+            margin: 0 auto 10px auto; 
         }
 
         p.subtitle { 
             margin-top: 5px; 
             font-size: 1.1em; 
-            color: #666; /* Cinza escuro */
+            color: #666; 
             font-style: italic; 
             font-weight: 500;
+            padding: 0 10px;
         }
 
-        /* BANNER ESCURO PARA CONTRASTE */
         .hero-banner { 
             background: var(--dark-color); 
             padding: 12px; 
             border-radius: 8px; 
-            margin-top: 20px; 
+            margin: 15px 20px 0 20px; /* Margem ajustada */
             font-weight: bold; 
             border: 1px solid var(--primary-color); 
             color: #fff; 
@@ -53,21 +53,17 @@
         
         main { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
-        /* ALERTAS */
         .alert-section { background: #fff; border-left: 5px solid var(--primary-color); padding: 20px; margin-bottom: 30px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .alert-title { color: var(--primary-color); font-weight: bold; font-size: 1.1em; display: flex; align-items: center; gap: 10px; }
         .alert-body { margin-top: 10px; font-size: 0.95em; line-height: 1.5; color: #555; }
         
-        /* FILTROS */
         #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
         .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
         .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
         
-        /* GRID */
         #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         
-        /* IMAGEM SEM CORTAR */
         .card-img { 
             width: 100%; 
             height: 200px; 
@@ -86,7 +82,6 @@
         
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
 
-        /* RODAPÉ DIADEMA */
         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
         .insta-btn { 
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
@@ -125,8 +120,8 @@
     </main>
 
     <footer>
-        <a href="https://instagram.com/cfcpremium" target="_blank" class="insta-btn">
-            <i class="fab fa-instagram"></i> Siga @cfcpremium
+        <a href="https://www.instagram.com/autoescolapremiumdiademar?igsh=c3pkNXdycjJuY2Fu" target="_blank" class="insta-btn">
+            <i class="fab fa-instagram"></i> Siga @autoescolapremiumdiadema
         </a>
         <div class="address-info">
             <p><i class="fas fa-map-marker-alt"></i> Rua João Theodoro Genesi, 125</p>
