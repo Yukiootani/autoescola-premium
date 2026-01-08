@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Premium</title>
+    <style>
+        :root{--primary:#D32F2F;--bg:#f4f4f4}body{font-family:sans-serif;margin:0;padding:20px;background:var(--bg)}h1{color:var(--primary);text-align:center}form{display:flex;flex-direction:column;gap:15px;background:#fff;padding:20px;border-radius:5px}input,select,textarea{padding:10px;border:1px solid #ccc}button{background:var(--primary);color:#fff;padding:15px;border:none;cursor:pointer}img.thumb{width:60px;height:60px;object-fit:cover}#status{display:none;padding:10px;text-align:center;font-weight:bold}
+    </style>
+</head>
+<body>
+    <h1>Auto Escola Premium</h1>
+    <div id="status"></div>
+    <section id="login-section"><form id="loginForm"><input id="login-email" placeholder="Email"><input type="password" id="login-password" placeholder="Senha"><button>Entrar</button></form></section>
+    <section id="admin-panel" style="display:none">
+        <form id="product-form">
+            <h3>Novo Serviço</h3><input type="hidden" id="productId">
+            <input id="name" placeholder="Nome do Serviço" required>
+            <input type="number" id="price" placeholder="Preço (R$)" required>
+            <select id="secao" required><option value="carro">Carro (B)</option><option value="moto">Moto (A)</option><option value="combo">Carro + Moto</option><option value="adicao">Adição</option><option value="renovacao">Renovação</option></select>
+            <textarea id="description" placeholder="Descrição"></textarea>
+            <select id="isFeatured"><option value="nenhum">Normal</option><option value="destaque">Oferta</option></select>
+            <label>Capa (Cloudinary):</label><input type="file" id="imageUrl">
+            <button type="submit">Salvar</button><button type="button" id="cancel-edit-btn" style="display:none;background:#777">Cancelar</button>
+        </form>
+        <div style="overflow-x:auto"><table id="products-table" border="1" style="width:100%;border-collapse:collapse;margin-top:20px;background:#fff"><thead><tr><th>Img</th><th>Nome</th><th>R$</th><th>Ação</th></tr></thead><tbody id="products-list"></tbody></table></div>
+        <button id="btnLogout" style="margin-top:20px;background:#333">Sair</button>
+    </section>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script> 
+    <script>
+        const CLOUDINARY_URL="https://api.cloudinary.com/v1_1/dlsxwrkks/auto/upload"; const UPLOAD_PRESET="da1soqf5";
+        const firebaseConfig={apiKey:"AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk",authDomain:"auto-escola-premium.firebaseapp.com",projectId:"auto-escola-premium",storageBucket:"auto-escola-premium.firebasestorage.app",messagingSenderId:"100515126742",appId:"1:100515126742:web:88069eb81308bded8e1877"};
+        firebase.initializeApp(firebaseConfig); const db=firebase.firestore(); const auth=firebase.auth();
+        
+        async function uploadFile(f){const fd=new FormData();fd.append('file',f);fd.append('upload_preset',UPLOAD_PRESET);const r=await fetch(CLOUDINARY_URL,{method:'POST',body:fd});const d=await r.json();return d.secure_url;}
+        
+        document.addEventListener('DOMContentLoaded',()=>{
+            const logF=document.getElementById('loginForm'), stat=document.getElementById('status'); let oldImg='';
+            function showStatus(m){stat.textContent=m;stat.style.display='block';setTimeout(()=>stat.style.display='none',3000)}
+            logF.addEventListener('submit',async(e)=>{e.preventDefault();try{await auth.signInWithEmailAndPassword(document.getElementById('login-email').value,document.getElementById('login-password').value)}catch(e){alert(e.message)}});
+            auth.onAuthStateChanged(u=>{if(u){document.getElementById('login-section').style.display='none';document.getElementById('admin-panel').style.display='block';fetchP()}});
+            document.getElementById('btnLogout').addEventListener('click',()=>auth.signOut().then(()=>location.reload()));
+            
+            async function fetchP(){const l=document.getElementById('products-list');l.innerHTML='';(await db.collection("products").orderBy("createdAt","desc").get()).forEach(d=>{
+                const p=d.data(); l.innerHTML+=`<tr><td><img src="${p.imageUrl}" class="thumb"></td><td>${p.name}</td><td>${p.price}</td><td><button onclick="edit('${d.id}')">E</button> <button onclick="del('${d.id}')" style="background:red">X</button></td></tr>`;
+            });}
+
+            document.getElementById('product-form').addEventListener('submit',async(e)=>{
+                e.preventDefault(); showStatus("Enviando...");
+                try{
+                    let img=oldImg; const f=document.getElementById('imageUrl').files[0]; if(f) img=await uploadFile(f);
+                    const d={name:document.getElementById('name').value, price:parseFloat(document.getElementById('price').value), secao:document.getElementById('secao').value, description:document.getElementById('description').value, isFeatured:document.getElementById('isFeatured').value, imageUrl:img, createdAt:firebase.firestore.FieldValue.serverTimestamp()};
+                    const id=document.getElementById('productId').value||`srv_${Date.now()}`;
+                    await db.collection("products").doc(id).set(d,{merge:true});
+                    document.getElementById('product-form').reset(); document.getElementById('productId').value=''; oldImg=''; document.getElementById('cancel-edit-btn').style.display='none';
+                    fetchP(); showStatus("Salvo!");
+                }catch(err){alert(err.message)}
+            });
+
+            window.edit=async(id)=>{const d=await db.collection("products").doc(id).get();const p=d.data();document.getElementById('productId').value=id;document.getElementById('name').value=p.name;document.getElementById('price').value=p.price;document.getElementById('secao').value=p.secao;document.getElementById('description').value=p.description;oldImg=p.imageUrl;document.getElementById('cancel-edit-btn').style.display='inline'};
+            document.getElementById('cancel-edit-btn').addEventListener('click',()=>{document.getElementById('product-form').reset();document.getElementById('cancel-edit-btn').style.display='none'});
+            window.del=async(id)=>{if(confirm("Apagar?"))await db.collection("products").doc(id).delete();fetchP()};
+        });
+    </script>
+</body>
+</html>
