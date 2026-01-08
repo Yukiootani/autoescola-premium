@@ -11,44 +11,57 @@
         :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
         
-        /* HEADER BRANCO */
+        /* HEADER BRANCO - Agora compacto */
         header { 
             background-color: #ffffff; 
             color: #333; 
             text-align: center; 
-            padding: 20px 0; /* Removi o padding lateral para o logo crescer mais */
+            padding: 0; /* Removi o padding para economizar espaço */
             border-bottom: 5px solid var(--primary-color); 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            overflow: hidden; /* Evita que o logo estoure a tela se for muito grande */
+            overflow: hidden;
         }
         
-        /* --- LOGO GIGANTE (AJUSTE FINAL) --- */
+        /* --- O TRUQUE DO RECORTE (CROP) --- */
+        .logo-crop {
+            height: 140px; /* Define o retângulo (1/4 da tela aprox) */
+            width: 100%;
+            overflow: hidden; /* Corta o que sobrar de branco em cima/embaixo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
         .logo-img { 
-            width: 90%;         /* Força ocupar 90% da largura da tela */
-            max-width: 400px;   /* Limite máximo para tablets/PC */
-            height: auto;       /* Altura automática para não distorcer */
+            width: 95%;         /* Mantém a largura (Texto grande) */
+            max-width: 450px;
+            /* As margens negativas "comem" o espaço em branco da imagem */
+            margin-top: -30px;    
+            margin-bottom: -30px; 
+            transform: scale(1.1); /* Leve zoom para garantir leitura */
             display: block; 
-            margin: 0 auto 10px auto; 
         }
 
         p.subtitle { 
-            margin-top: 5px; 
-            font-size: 1.1em; 
+            margin-top: 0px; /* Colei no logo */
+            margin-bottom: 15px;
+            font-size: 1.0em; 
             color: #666; 
             font-style: italic; 
             font-weight: 500;
-            padding: 0 10px;
         }
 
         .hero-banner { 
             background: var(--dark-color); 
-            padding: 12px; 
+            padding: 10px; 
             border-radius: 8px; 
-            margin: 15px 20px 0 20px; /* Margem ajustada */
+            margin: 0 20px 20px 20px; 
             font-weight: bold; 
             border: 1px solid var(--primary-color); 
             color: #fff; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-size: 0.95em;
         }
         
         main { max-width: 1100px; margin: 0 auto; padding: 20px; }
@@ -95,7 +108,9 @@
 </head>
 <body>
     <header>
-        <img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img">
+        <div class="logo-crop">
+            <img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img">
+        </div>
         
         <p class="subtitle">"Mais de 20 anos realizando sonhos."</p>
         <div class="hero-banner">🚦 Transformando sonhos em CNH</div>
