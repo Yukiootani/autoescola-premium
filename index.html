@@ -17,41 +17,27 @@
         .logo-img { width: 95%; max-width: 450px; margin-top: -30px; margin-bottom: -30px; transform: scale(1.1); display: block; }
         p.subtitle { margin-top: 0px; margin-bottom: 15px; font-size: 1.0em; color: #666; font-style: italic; font-weight: 500; }
         
-        /* BANNER DE TEXTO (NOVO) */
-        .provocation-banner {
-            text-align: center;
-            padding: 20px 20px 10px 20px;
-        }
-        .provocation-title {
-            color: var(--primary-color);
-            font-size: 1.3em;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        .provocation-desc {
-            color: #555;
-            font-size: 0.95em;
-            margin: 0;
-        }
+        .provocation-banner { text-align: center; padding: 20px 20px 10px 20px; }
+        .provocation-title { color: var(--primary-color); font-size: 1.3em; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+        .provocation-desc { color: #555; font-size: 0.95em; margin: 0; }
 
-        /* ÁREA DO VÍDEO ÚNICO */
+        /* VÍDEO CONTAINER */
         .single-video-container {
             background: #000;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            margin: 15px 20px 30px 20px; /* Margens laterais */
+            margin: 15px 20px 30px 20px;
             overflow: hidden;
             border: 3px solid var(--primary-color);
             position: relative;
-            height: 220px; /* Altura fixa para destaque */
+            height: 220px;
         }
 
         .video-bg {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.8; /* Um pouco mais claro que antes */
+            opacity: 0.8;
         }
 
         .video-overlay {
@@ -63,15 +49,33 @@
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
             color: white;
             text-shadow: 1px 1px 2px black;
+            pointer-events: none; /* Deixa clicar no vídeo se precisar */
         }
 
-        /* RESTO DO CSS (Igual) */
-        main { max-width: 1100px; margin: 0 auto; padding: 0 20px 20px 20px; } /* Ajustei o padding */
-        
+        /* --- NOVO: BOTÃO DE SOM --- */
+        .sound-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-size: 18px;
+        }
+
+        /* RESTO DO CSS */
+        main { max-width: 1100px; margin: 0 auto; padding: 0 20px 20px 20px; }
         #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
         .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
         .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
-        
         #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         .card-img { width: 100%; height: 200px; background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; border-bottom: 1px solid #eee; }
@@ -80,9 +84,7 @@
         .card-badge { display: inline-block; background: #eee; font-size: 0.8em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; width: fit-content; }
         .card-price { font-size: 1.4em; font-weight: bold; color: var(--primary-color); margin-top: auto; }
         .card-installments { font-size: 0.9em; color: #666; font-weight: normal; }
-        
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
-        
         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
         .insta-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4); }
         .address-info { color: #ccc; font-size: 0.95em; line-height: 1.6; }
@@ -103,9 +105,14 @@
         </div>
 
         <div class="single-video-container">
-            <video class="video-bg" autoplay muted loop playsinline 
+            <div class="sound-toggle" onclick="toggleSound()">
+                <i class="fas fa-volume-mute" id="soundIcon"></i>
+            </div>
+            
+            <video id="mainVideo" class="video-bg" autoplay muted loop playsinline 
                 src="https://res.cloudinary.com/dlsxwrkks/video/upload/sora-video-s_6960ff54f54c8191950ba35bd5910575-2026-01-09_pcx8iz.mp4">
             </video>
+            
             <div class="video-overlay">
                 <strong><i class="fas fa-exclamation-triangle"></i> O Barato sai Caro</strong><br>
                 <small>Não arrisque sua segurança. Venha para a Premium.</small>
@@ -148,8 +155,21 @@
         const firebaseConfig = { apiKey: "AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk", authDomain: "auto-escola-premium.firebaseapp.com", projectId: "auto-escola-premium", storageBucket: "auto-escola-premium.firebasestorage.app", messagingSenderId: "100515126742", appId: "1:100515126742:web:88069eb81308bded8e1877" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        // --- LÓGICA DO BOTÃO DE SOM (NOVO) ---
+        function toggleSound() {
+            const video = document.getElementById('mainVideo');
+            const icon = document.getElementById('soundIcon');
+            
+            if (video.muted) {
+                video.muted = false; // Liga o som
+                icon.className = 'fas fa-volume-up'; // Muda ícone para som alto
+            } else {
+                video.muted = true; // Desliga o som
+                icon.className = 'fas fa-volume-mute'; // Muda ícone para mudo
+            }
+        }
         
-        // SCRIPT SIMPLIFICADO (SEM CARROSSEL)
         const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
         let currentSecao='todos';
         
