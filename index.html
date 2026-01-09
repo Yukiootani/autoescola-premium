@@ -52,44 +52,12 @@
         .card-installments { font-size: 0.9em; color: #666; font-weight: normal; }
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
         
-        /* --- RODAPÉ HARMONIZADO --- */
-        footer { 
-            background: #1a1a1a; 
-            color: #ccc; 
-            padding: 50px 20px 30px; 
-            text-align: center; 
-            margin-top: 40px; 
-            border-top: 4px solid var(--primary-color); 
-        }
-        
-        .insta-btn { 
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
-            color: white !important; /* Força cor branca */
-            padding: 12px 25px; 
-            border-radius: 50px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 10px; 
-            margin-bottom: 30px; 
-            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
-        }
-
+        /* RODAPÉ HARMONIZADO */
+        footer { background: #1a1a1a; color: #ccc; padding: 50px 20px 30px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
+        .insta-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white !important; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4); }
         .address-info p { margin: 8px 0; }
         .address-info i { color: var(--primary-color); margin-right: 8px; }
-        
-        /* Box de Horário Minimalista (Borda Fina) */
-        .horario-box { 
-            border: 1px solid rgba(255,255,255,0.1); /* Borda sutil ao invés de fundo */
-            padding: 20px; 
-            border-radius: 8px; 
-            margin: 25px auto; /* Centraliza */
-            max-width: 300px; /* Limita largura */
-            background: transparent;
-        }
-
-        /* Correção do Link Azul */
+        .horario-box { border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin: 25px auto; max-width: 300px; background: transparent; }
         footer a { color: #fff; text-decoration: none; } 
     </style>
 </head>
@@ -107,7 +75,11 @@
 
         <div class="single-video-container">
             <div class="sound-toggle" onclick="toggleSound()"><i class="fas fa-volume-mute" id="soundIcon"></i></div>
-            <video id="mainVideo" class="video-bg" autoplay muted loop playsinline src="https://res.cloudinary.com/dlsxwrkks/video/upload/sora-video-s_6960ff54f54c8191950ba35bd5910575-2026-01-09_pcx8iz.mp4"></video>
+            
+            <video id="mainVideo" class="video-bg" autoplay muted loop playsinline 
+                src="https://res.cloudinary.com/dlsxwrkks/video/upload/sora-video-s_6960ff54f54c8191950ba35bd5910575-2026-01-09_pcx8iz.mp4">
+            </video>
+            
             <div class="video-overlay">
                 <strong><i class="fas fa-exclamation-triangle"></i> O Barato sai Caro</strong><br>
                 <small>Não arrisque sua segurança. Venha para a Premium.</small>
@@ -160,6 +132,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // CONTROLE DE SOM
         function toggleSound() {
             const video = document.getElementById('mainVideo');
             const icon = document.getElementById('soundIcon');
@@ -167,6 +140,7 @@
             else { video.muted = true; icon.className = 'fas fa-volume-mute'; }
         }
         
+        // BUSCA FIREBASE
         const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
         let currentSecao='todos';
         async function fetchServices(){
@@ -178,8 +152,22 @@
                 snap.forEach(doc=>{ const p=doc.data(); const price=p.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); const parcela=(p.price/12).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); let badge=''; if(p.isFeatured==='destaque') badge='<span style="background:#ffd700; padding:2px 6px; border-radius:4px; font-size:0.8em; font-weight:bold; margin-bottom:5px">⭐ OFERTA</span>'; grid.innerHTML+=`<a href="detalhes.html?id=${doc.id}" class="service-card"><div class="card-img" style="background-image: url('${p.imageUrl}')"></div><div class="card-body">${badge}<div class="card-title">${p.name}</div><div class="card-badge">${p.secao.toUpperCase()}</div><div class="card-price">${price}</div><div class="card-installments">ou 12x de ${parcela}</div></div></a>`; });
             }catch(e){grid.innerHTML='Erro ao carregar.'}
         }
+        
+        // --- SCRIPT PARA FORÇAR O PLAY NO IPHONE ---
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchServices(); // Carrega produtos
+            
+            // Tenta forçar o vídeo a rodar
+            const video = document.getElementById('mainVideo');
+            if(video) {
+                video.play().catch(error => {
+                    console.log("Autoplay bloqueado (comum em iPhone bateria baixa):", error);
+                    // Se bloquear, a gente mostra o botão de play no meio (opcional), mas vamos deixar assim por enquanto.
+                });
+            }
+        });
+        
         buttons.forEach(btn=>{ btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSecao=btn.dataset.secao;fetchServices()})});
-        document.addEventListener('DOMContentLoaded',fetchServices);
     </script>
 </body>
 </html>
