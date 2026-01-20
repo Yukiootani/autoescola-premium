@@ -19,7 +19,15 @@
         
         .provocation-banner { text-align: center; padding: 20px 20px 10px 20px; }
         .provocation-title { color: var(--primary-color); font-size: 1.3em; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
-        .provocation-desc { color: #555; font-size: 0.95em; margin: 0; }
+        
+        /* --- FRASE DE IMPACTO (CSS Ajustado) --- */
+        .provocation-desc { 
+            color: #444; 
+            font-size: 1.1em; /* Aumentei um pouco */
+            font-weight: 600; /* Deixei mais negrito */
+            margin: 0; 
+            line-height: 1.4;
+        }
 
         /* VÍDEO */
         .single-video-container {
@@ -70,7 +78,7 @@
     <main>
         <div class="provocation-banner">
             <div class="provocation-title">⚠️ Fim da Obrigatoriedade?</div>
-            <p class="provocation-desc">Será que vale a pena mesmo tentar tirar a carta por conta própria?</p>
+            <p class="provocation-desc">Carro sem Pedal de Segurança? O barato pode custar sua vida.</p>
         </div>
 
         <div class="single-video-container">
@@ -140,7 +148,6 @@
             else { video.muted = true; icon.className = 'fas fa-volume-mute'; }
         }
         
-        // BUSCA FIREBASE
         const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
         let currentSecao='todos';
         async function fetchServices(){
@@ -153,18 +160,11 @@
             }catch(e){grid.innerHTML='Erro ao carregar.'}
         }
         
-        // --- SCRIPT PARA FORÇAR O PLAY NO IPHONE ---
+        // AUTO-PLAY FORÇADO
         document.addEventListener('DOMContentLoaded', () => {
-            fetchServices(); // Carrega produtos
-            
-            // Tenta forçar o vídeo a rodar
+            fetchServices();
             const video = document.getElementById('mainVideo');
-            if(video) {
-                video.play().catch(error => {
-                    console.log("Autoplay bloqueado (comum em iPhone bateria baixa):", error);
-                    // Se bloquear, a gente mostra o botão de play no meio (opcional), mas vamos deixar assim por enquanto.
-                });
-            }
+            if(video) { video.play().catch(e => console.log("Autoplay:", e)); }
         });
         
         buttons.forEach(btn=>{ btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSecao=btn.dataset.secao;fetchServices()})});
