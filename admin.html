@@ -3,174 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Premium</title>
+    <meta name="theme-color" content="#ffffff">
+    <title>CFC Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
     <style>
-        :root{--primary:#D32F2F;--bg:#f4f4f4}
-        body{font-family:sans-serif;margin:0;padding:20px;background:var(--bg)}
-        h1{color:var(--primary);text-align:center}
-        form{display:flex;flex-direction:column;gap:15px;background:#fff;padding:20px;border-radius:5px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
-        input,select,textarea{padding:12px;border:1px solid #ccc;border-radius:4px;font-size:16px}
-        button{background:var(--primary);color:#fff;padding:15px;border:none;cursor:pointer;font-weight:bold;border-radius:4px}
-        button:hover{background:#b71c1c}
-        img.thumb{width:60px;height:60px;object-fit:cover;border-radius:4px}
-        #status{display:none;padding:10px;text-align:center;font-weight:bold;margin-bottom:10px;border-radius:4px}
-        .success{background:#d4edda;color:#155724} .loading{background:#cce5ff;color:#004085}
-        table{width:100%;border-collapse:collapse;margin-top:20px;background:#fff}
-        th,td{padding:10px;border:1px solid #ddd;text-align:left}
-        th{background:#333;color:white}
+        :root { --primary-color: #D32F2F; --dark-color: #1a1a1a; --bg-color: #f4f4f4; --white: #fff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
+        
+        header { background-color: #ffffff; color: #333; text-align: center; padding: 0; border-bottom: 5px solid var(--primary-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; }
+        .logo-crop { height: 140px; width: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
+        .logo-img { width: 95%; max-width: 450px; margin-top: -30px; margin-bottom: -30px; transform: scale(1.1); display: block; }
+        p.subtitle { margin-top: 0px; margin-bottom: 15px; font-size: 1.0em; color: #666; font-style: italic; font-weight: 500; }
+        
+        .provocation-banner { text-align: center; padding: 20px 20px 10px 20px; }
+        .provocation-title { color: var(--primary-color); font-size: 1.3em; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+        .provocation-desc { color: #444; font-size: 1.1em; font-weight: 600; margin: 0; line-height: 1.4; }
+
+        .single-video-container { background: #000; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); margin: 15px 20px 30px 20px; overflow: hidden; border: 3px solid var(--primary-color); position: relative; height: 220px; }
+        .video-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+        .video-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); color: white; text-shadow: 1px 1px 2px black; pointer-events: none; }
+        .sound-toggle { position: absolute; top: 15px; right: 15px; background: rgba(0, 0, 0, 0.6); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; border: 2px solid rgba(255,255,255,0.3); font-size: 18px; }
+
+        main { max-width: 1100px; margin: 0 auto; padding: 0 20px 20px 20px; }
+        #secao-filters { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; margin-bottom: 20px; }
+        .secao-button { background: #fff; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; white-space: nowrap; cursor: pointer; font-weight: bold; color: #555; }
+        .secao-button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        #products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .card-img { width: 100%; height: 200px; background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; border-bottom: 1px solid #eee; }
+        .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.2em; font-weight: bold; margin: 0 0 5px; color: var(--dark-color); }
+        .card-badge { display: inline-block; background: #eee; font-size: 0.8em; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; width: fit-content; }
+        .card-price { font-size: 1.4em; font-weight: bold; color: var(--primary-color); margin-top: auto; }
+        .card-installments { font-size: 0.9em; color: #666; font-weight: normal; }
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
+        
+        footer { background: #1a1a1a; color: #ccc; padding: 50px 20px 30px; text-align: center; margin-top: 40px; border-top: 4px solid var(--primary-color); }
+        .insta-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white !important; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4); }
+        .address-info p { margin: 8px 0; }
+        .address-info i { color: var(--primary-color); margin-right: 8px; }
+        .horario-box { border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin: 25px auto; max-width: 300px; background: transparent; }
+        footer a { color: #fff; text-decoration: none; } 
     </style>
 </head>
 <body>
-    <h1>Painel CFC Premium</h1>
-    <div id="status"></div>
-    
-    <section id="login-section">
-        <form id="loginForm">
-            <input type="email" id="login-email" placeholder="Email Administrativo">
-            <input type="password" id="login-password" placeholder="Senha">
-            <button>Entrar no Sistema</button>
-        </form>
-    </section>
+    <header>
+        <div class="logo-crop"><img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img"></div>
+        <p class="subtitle">"Mais de 20 anos realizando sonhos."</p>
+    </header>
 
-    <section id="admin-panel" style="display:none">
-        <form id="product-form">
-            <h3>Cadastrar Novo Serviço</h3>
-            <input type="hidden" id="productId">
-            
-            <label>Nome do Serviço:</label>
-            <input id="name" placeholder="Ex: Habilitação Carro (B)" required>
-            
-            <label>Preço (R$):</label>
-            <input type="number" id="price" placeholder="0.00" required>
-            
-            <label>Categoria:</label>
-            <select id="secao" required>
-                <option value="">Selecione...</option>
-                <option value="carro">Carro (Cat. B)</option>
-                <option value="moto">Moto (Cat. A)</option>
-                <option value="combo">Carro + Moto (AB)</option>
-                <option value="onibus">Ônibus (Cat. D)</option>
-                <option value="adicao">Adição de Categoria</option>
-                <option value="renovacao">Renovação / Reciclagem</option>
-            </select>
-            
-            <label>Descrição (Incluso no pacote):</label>
-            <textarea id="description" rows="4" placeholder="Detalhes do serviço..."></textarea>
-            
-            <label>Destaque:</label>
-            <select id="isFeatured">
-                <option value="nenhum">Normal</option>
-                <option value="destaque">⭐ Oferta Especial</option>
-            </select>
-            
-            <label>Foto do Serviço:</label>
-            <input type="file" id="imageUrl">
-            
-            <button type="submit">Salvar Serviço</button>
-            <button type="button" id="cancel-edit-btn" style="display:none;background:#777">Cancelar Edição</button>
-        </form>
+    <main>
+        <div class="provocation-banner">
+            <div id="dynamic-headline" class="provocation-title">⚠️ Fim da Obrigatoriedade?</div>
+            <p id="dynamic-subheadline" class="provocation-desc">Carro sem Pedal de Segurança? O barato pode custar sua vida.</p>
+        </div>
 
-        <div style="overflow-x:auto">
-            <table id="products-table">
-                <thead><tr><th>Foto</th><th>Serviço</th><th>Valor</th><th>Ações</th></tr></thead>
-                <tbody id="products-list"></tbody>
-            </table>
+        <div class="single-video-container">
+            <div class="sound-toggle" onclick="toggleSound()"><i class="fas fa-volume-mute" id="soundIcon"></i></div>
+            <video id="mainVideo" class="video-bg" autoplay muted loop playsinline src="https://res.cloudinary.com/dlsxwrkks/video/upload/sora-video-s_6960ff54f54c8191950ba35bd5910575-2026-01-09_pcx8iz.mp4"></video>
+            <div class="video-overlay">
+                <strong><i class="fas fa-exclamation-triangle"></i> O Barato sai Caro</strong><br>
+                <small>Não arrisque sua segurança. Venha para a Premium.</small>
+            </div>
         </div>
         
-        <button id="btnLogout" style="margin-top:20px;background:#333">Sair</button>
-    </section>
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script> 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script> 
-    <script>
-        // CONFIGURAÇÃO CLOUDINARY
-        const CLOUDINARY_URL="https://api.cloudinary.com/v1_1/dlsxwrkks/auto/upload"; 
-        const UPLOAD_PRESET="da1soqf5";
-
-        // CONFIGURAÇÃO FIREBASE
-        const firebaseConfig={apiKey:"AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk",authDomain:"auto-escola-premium.firebaseapp.com",projectId:"auto-escola-premium",storageBucket:"auto-escola-premium.firebasestorage.app",messagingSenderId:"100515126742",appId:"1:100515126742:web:88069eb81308bded8e1877"};
-        firebase.initializeApp(firebaseConfig); 
-        const db=firebase.firestore(); 
-        const auth=firebase.auth();
+        <div id="secao-filters">
+            <button class="secao-button active" data-secao="todos">Todos</button>
+            <button class="secao-button" data-secao="carro">Carro (B)</button>
+            <button class="secao-button" data-secao="moto">Moto (A)</button>
+            <button class="secao-button" data-secao="combo">Carro + Moto</button>
+            <button class="secao-button" data-secao="onibus">Ônibus (D)</button>
+            <button class="secao-button" data-secao="adicao">Adição</button>
+            <button class="secao-button" data-secao="renovacao">Renovação</button>
+        </div>
         
-        // FUNÇÃO DE UPLOAD
-        async function uploadFile(f){
-            const fd=new FormData();
-            fd.append('file',f);
-            fd.append('upload_preset',UPLOAD_PRESET);
-            const r=await fetch(CLOUDINARY_URL,{method:'POST',body:fd});
-            const d=await r.json();
-            return d.secure_url;
+        <div id="products-grid"><p style="text-align:center; width:100%; color:#777">Carregando serviços...</p></div>
+    </main>
+
+    <footer>
+        <a href="https://www.instagram.com/autoescolapremiumdiadema" target="_blank" class="insta-btn"><i class="fab fa-instagram"></i> Siga @autoescolapremiumdiadema</a>
+        <div class="address-info">
+            <p><i class="fas fa-map-marker-alt"></i> Rua João Theodoro Genesi, 125</p>
+            <p style="color:#777; font-size:0.9em; margin-bottom:20px">Diadema - São Paulo</p>
+            <div class="horario-box">
+                <p style="color:#fff; margin-bottom:10px"><i class="far fa-clock"></i> Atendimento</p>
+                <p style="font-size:0.95em; color:#aaa">Seg a Sex: 08h às 18h</p>
+                <p style="font-size:0.95em; color:#aaa">Sábado: 08h às 12h</p>
+            </div>
+            <p style="margin-top:20px; font-size:1.1em; color:#fff"><i class="fas fa-phone"></i> <a href="tel:1140561402">4056-1402</a> / <a href="tel:11941427564">94142-7564</a></p>
+            <p style="margin-top:15px; font-size:0.7em; opacity:0.4">© 2026 CFC Premium</p>
+        </div>
+    </footer>
+    
+    <a href="https://wa.me/5511947222028" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyAGXoIZh1tPLbpQ62MKw1NkXxboIg5cbMk", authDomain: "auto-escola-premium.firebaseapp.com", projectId: "auto-escola-premium", storageBucket: "auto-escola-premium.firebasestorage.app", messagingSenderId: "100515126742", appId: "1:100515126742:web:88069eb81308bded8e1877" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function toggleSound() {
+            const video = document.getElementById('mainVideo'); const icon = document.getElementById('soundIcon');
+            if (video.muted) { video.muted = false; icon.className = 'fas fa-volume-up'; } 
+            else { video.muted = true; icon.className = 'fas fa-volume-mute'; }
         }
         
-        document.addEventListener('DOMContentLoaded',()=>{
-            const logF=document.getElementById('loginForm'), stat=document.getElementById('status'); let oldImg='';
-            
-            function showStatus(m,t='loading'){stat.textContent=m;stat.className=t;stat.style.display='block';setTimeout(()=>stat.style.display='none',3000)}
-            
-            logF.addEventListener('submit',async(e)=>{
-                e.preventDefault();
-                try{await auth.signInWithEmailAndPassword(document.getElementById('login-email').value,document.getElementById('login-password').value)}
-                catch(e){alert("Erro: "+e.message)}
-            });
-            
-            auth.onAuthStateChanged(u=>{
-                if(u){document.getElementById('login-section').style.display='none';document.getElementById('admin-panel').style.display='block';fetchP()}
-            });
-            
-            document.getElementById('btnLogout').addEventListener('click',()=>auth.signOut().then(()=>location.reload()));
-            
-            async function fetchP(){
-                const l=document.getElementById('products-list');l.innerHTML='';
-                (await db.collection("products").orderBy("createdAt","desc").get()).forEach(d=>{
-                    const p=d.data(); 
-                    l.innerHTML+=`<tr><td><img src="${p.imageUrl}" class="thumb"></td><td>${p.name}<br><small>${p.secao}</small></td><td>R$ ${p.price}</td><td><button onclick="edit('${d.id}')" style="background:#007bff;padding:5px">Editar</button> <button onclick="del('${d.id}')" style="background:#dc3545;padding:5px">X</button></td></tr>`;
-                });
-            }
+        const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
+        let currentSecao='todos';
+        
+        // --- NOVO: BUSCA OS TEXTOS DO ADMIN ---
+        async function loadTexts() {
+            try {
+                const doc = await db.collection('config').doc('site_texts').get();
+                if(doc.exists) {
+                    const data = doc.data();
+                    if(data.headline) document.getElementById('dynamic-headline').innerText = data.headline;
+                    if(data.subheadline) document.getElementById('dynamic-subheadline').innerText = data.subheadline;
+                }
+            } catch(e) { console.log("Usando textos padrão"); }
+        }
 
-            document.getElementById('product-form').addEventListener('submit',async(e)=>{
-                e.preventDefault(); showStatus("Salvando...");
-                try{
-                    let img=oldImg; 
-                    const f=document.getElementById('imageUrl').files[0]; 
-                    if(f) img=await uploadFile(f);
-                    
-                    const d={
-                        name:document.getElementById('name').value, 
-                        price:parseFloat(document.getElementById('price').value), 
-                        secao:document.getElementById('secao').value, 
-                        description:document.getElementById('description').value, 
-                        isFeatured:document.getElementById('isFeatured').value, 
-                        imageUrl:img, 
-                        createdAt:firebase.firestore.FieldValue.serverTimestamp()
-                    };
-                    
-                    const id=document.getElementById('productId').value||`srv_${Date.now()}`;
-                    await db.collection("products").doc(id).set(d,{merge:true});
-                    
-                    document.getElementById('product-form').reset(); document.getElementById('productId').value=''; oldImg=''; 
-                    document.getElementById('cancel-edit-btn').style.display='none';
-                    fetchP(); showStatus("Sucesso!","success");
-                }catch(err){showStatus("Erro: "+err.message,"error")}
-            });
-
-            window.edit=async(id)=>{
-                const d=await db.collection("products").doc(id).get();const p=d.data();
-                document.getElementById('productId').value=id;
-                document.getElementById('name').value=p.name;
-                document.getElementById('price').value=p.price;
-                document.getElementById('secao').value=p.secao;
-                document.getElementById('description').value=p.description;
-                document.getElementById('isFeatured').value=p.isFeatured;
-                oldImg=p.imageUrl;
-                document.getElementById('cancel-edit-btn').style.display='inline';
-                window.scrollTo(0,0);
-            };
-            
-            document.getElementById('cancel-edit-btn').addEventListener('click',()=>{document.getElementById('product-form').reset();document.getElementById('cancel-edit-btn').style.display='none'});
-            window.del=async(id)=>{if(confirm("Tem certeza que quer apagar?"))await db.collection("products").doc(id).delete();fetchP()};
+        async function fetchServices(){
+            grid.innerHTML='<p style="text-align:center; width:100%">Buscando planos...</p>';
+            let q=db.collection("products").orderBy("createdAt","desc");
+            if(currentSecao!=='todos') q=q.where("secao","==",currentSecao);
+            try{ 
+                const snap=await q.get(); grid.innerHTML=''; if(snap.empty){grid.innerHTML='<p style="text-align:center; width:100%">Nenhum serviço encontrado.</p>';return;}
+                snap.forEach(doc=>{ const p=doc.data(); const price=p.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); const parcela=(p.price/12).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); let badge=''; if(p.isFeatured==='destaque') badge='<span style="background:#ffd700; padding:2px 6px; border-radius:4px; font-size:0.8em; font-weight:bold; margin-bottom:5px">⭐ OFERTA</span>'; grid.innerHTML+=`<a href="detalhes.html?id=${doc.id}" class="service-card"><div class="card-img" style="background-image: url('${p.imageUrl}')"></div><div class="card-body">${badge}<div class="card-title">${p.name}</div><div class="card-badge">${p.secao.toUpperCase()}</div><div class="card-price">${price}</div><div class="card-installments">ou 12x de ${parcela}</div></div></a>`; });
+            }catch(e){grid.innerHTML='Erro ao carregar.'}
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchServices();
+            loadTexts(); // Carrega os textos do admin
+            const video = document.getElementById('mainVideo');
+            if(video) { video.play().catch(e => console.log("Autoplay:", e)); }
         });
+        
+        buttons.forEach(btn=>{ btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSecao=btn.dataset.secao;fetchServices()})});
     </script>
 </body>
 </html>
