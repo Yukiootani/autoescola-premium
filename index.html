@@ -49,7 +49,9 @@
 </head>
 <body>
     <header>
-        <div class="logo-crop"><img src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img"></div>
+        <div class="logo-crop">
+            <img id="dynamic-logo" src="36EFFD99-4AB9-4A07-9A40-E772A52B3C1E.png" alt="CFC Premium" class="logo-img">
+        </div>
         
         <p id="dynamic-slogan" class="subtitle">"Mais de 20 anos realizando sonhos."</p>
     </header>
@@ -115,18 +117,24 @@
         const grid=document.getElementById('products-grid'), buttons=document.querySelectorAll('.secao-button');
         let currentSecao='todos';
         
-        // --- ATUALIZADO: BUSCA SLOGAN + HEADLINES ---
-        async function loadTexts() {
+        // --- BUSCA TUDO DO FIREBASE (INCLUSIVE O LOGO) ---
+        async function loadConfig() {
             try {
                 const doc = await db.collection('config').doc('site_texts').get();
                 if(doc.exists) {
                     const data = doc.data();
-                    // Verifica se existe o dado no banco, se não, usa o que já está no HTML
+                    
+                    // Atualiza textos
                     if(data.slogan) document.getElementById('dynamic-slogan').innerText = '"' + data.slogan.replace(/"/g, '') + '"';
                     if(data.headline) document.getElementById('dynamic-headline').innerText = data.headline;
                     if(data.subheadline) document.getElementById('dynamic-subheadline').innerText = data.subheadline;
+                    
+                    // Atualiza o logo se existir um link salvo
+                    if(data.logoUrl) {
+                        document.getElementById('dynamic-logo').src = data.logoUrl;
+                    }
                 }
-            } catch(e) { console.log("Usando textos padrão"); }
+            } catch(e) { console.log("Usando padrão"); }
         }
 
         async function fetchServices(){
@@ -141,7 +149,7 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             fetchServices();
-            loadTexts(); 
+            loadConfig(); 
             const video = document.getElementById('mainVideo');
             if(video) { video.play().catch(e => console.log("Autoplay:", e)); }
         });
