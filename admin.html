@@ -37,15 +37,20 @@
     <div id="admin-panel" style="display:none">
         
         <section>
-            <h3>📢 Textos do Banner (Headline)</h3>
+            <h3>📢 Configurações de Texto</h3>
             <form id="config-form">
-                <label>Título Impactante (Headline):</label>
+                <label>Frase Abaixo do Logo (Slogan):</label>
+                <input id="site-slogan" placeholder='Ex: "Mais de 20 anos realizando sonhos."'>
+                
+                <hr style="border:0; border-top:1px solid #eee; width:100%">
+                
+                <label>Título do Banner (Headline):</label>
                 <input id="site-headline" placeholder="Ex: Fim da Obrigatoriedade?">
                 
-                <label>Subtítulo (Frase abaixo):</label>
+                <label>Subtítulo do Banner (Abaixo do título):</label>
                 <input id="site-subheadline" placeholder="Ex: O barato pode custar sua vida...">
                 
-                <button type="submit" class="secondary">Atualizar Textos do Site</button>
+                <button type="submit" class="secondary">Atualizar Site</button>
             </form>
         </section>
 
@@ -109,7 +114,6 @@
         function showStatus(m,t='loading'){const s=document.getElementById('status');s.textContent=m;s.className=t;s.style.display='block';setTimeout(()=>s.style.display='none',3000)}
 
         document.addEventListener('DOMContentLoaded',()=>{
-            // LOGIN
             document.getElementById('loginForm').addEventListener('submit',async(e)=>{
                 e.preventDefault();
                 try{await auth.signInWithEmailAndPassword(document.getElementById('login-email').value,document.getElementById('login-password').value)}
@@ -121,37 +125,39 @@
                     document.getElementById('login-section').style.display='none';
                     document.getElementById('admin-panel').style.display='block';
                     loadProducts();
-                    loadConfig(); // Carrega os textos atuais
+                    loadConfig();
                 }
             });
 
-            // --- LÓGICA DA CONFIGURAÇÃO DE TEXTO ---
+            // CARREGA TEXTOS (INCLUINDO SLOGAN)
             async function loadConfig(){
                 try {
                     const doc = await db.collection('config').doc('site_texts').get();
                     if(doc.exists){
                         const data = doc.data();
+                        document.getElementById('site-slogan').value = data.slogan || ''; // Novo
                         document.getElementById('site-headline').value = data.headline || '';
                         document.getElementById('site-subheadline').value = data.subheadline || '';
                     }
-                } catch(e){console.log("Sem config ainda");}
+                } catch(e){console.log("Sem config");}
             }
 
+            // SALVA TEXTOS (INCLUINDO SLOGAN)
             document.getElementById('config-form').addEventListener('submit', async(e)=>{
                 e.preventDefault();
-                showStatus("Atualizando textos...");
+                showStatus("Salvando...");
+                const slogan = document.getElementById('site-slogan').value;
                 const h = document.getElementById('site-headline').value;
                 const s = document.getElementById('site-subheadline').value;
                 
                 await db.collection('config').doc('site_texts').set({
+                    slogan: slogan, // Salva o novo campo
                     headline: h,
                     subheadline: s
                 });
-                showStatus("Textos atualizados!", "success");
+                showStatus("Site atualizado!", "success");
             });
-            // ---------------------------------------
 
-            // PRODUTOS (Igual ao anterior)
             document.getElementById('btnLogout').addEventListener('click',()=>auth.signOut().then(()=>location.reload()));
             let oldImg='';
 
