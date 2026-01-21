@@ -15,6 +15,7 @@
         button:hover{background:#b71c1c}
         button.secondary{background:#555;}
         img.thumb{width:60px;height:60px;object-fit:cover;border-radius:4px}
+        img.logo-preview{max-width: 200px; max-height: 100px; object-fit: contain; background: #eee; padding: 10px; border-radius: 4px;}
         #status{display:none;padding:10px;text-align:center;font-weight:bold;margin-bottom:10px;border-radius:4px}
         .success{background:#d4edda;color:#155724} .loading{background:#cce5ff;color:#004085}
         table{width:100%;border-collapse:collapse;margin-top:20px;background:#fff}
@@ -37,20 +38,24 @@
     <div id="admin-panel" style="display:none">
         
         <section>
-            <h3>📢 Configurações de Texto</h3>
+            <h3>📢 Identidade Visual & Textos</h3>
             <form id="config-form">
-                <label>Frase Abaixo do Logo (Slogan):</label>
-                <input id="site-slogan" placeholder='Ex: "Mais de 20 anos realizando sonhos."'>
+                <label>Logo do Site (Deixe vazio para manter o atual):</label>
+                <input type="file" id="site-logo-file">
+                <img id="current-logo-preview" class="logo-preview" style="display:none">
                 
                 <hr style="border:0; border-top:1px solid #eee; width:100%">
+
+                <label>Frase Abaixo do Logo (Slogan):</label>
+                <input id="site-slogan" placeholder='Ex: "Mais de 20 anos realizando sonhos."'>
                 
                 <label>Título do Banner (Headline):</label>
                 <input id="site-headline" placeholder="Ex: Fim da Obrigatoriedade?">
                 
-                <label>Subtítulo do Banner (Abaixo do título):</label>
+                <label>Subtítulo do Banner:</label>
                 <input id="site-subheadline" placeholder="Ex: O barato pode custar sua vida...">
                 
-                <button type="submit" class="secondary">Atualizar Site</button>
+                <button type="submit" class="secondary">Salvar Configurações</button>
             </form>
         </section>
 
@@ -114,6 +119,8 @@
         function showStatus(m,t='loading'){const s=document.getElementById('status');s.textContent=m;s.className=t;s.style.display='block';setTimeout(()=>s.style.display='none',3000)}
 
         document.addEventListener('DOMContentLoaded',()=>{
+            let currentLogoUrl = ''; // Guarda a URL atual do logo
+
             document.getElementById('loginForm').addEventListener('submit',async(e)=>{
                 e.preventDefault();
                 try{await auth.signInWithEmailAndPassword(document.getElementById('login-email').value,document.getElementById('login-password').value)}
@@ -129,33 +136,59 @@
                 }
             });
 
-            // CARREGA TEXTOS (INCLUINDO SLOGAN)
+            // CARREGA CONFIGURAÇÕES DO FIREBASE
             async function loadConfig(){
                 try {
                     const doc = await db.collection('config').doc('site_texts').get();
                     if(doc.exists){
                         const data = doc.data();
-                        document.getElementById('site-slogan').value = data.slogan || ''; // Novo
+                        document.getElementById('site-slogan').value = data.slogan || '';
                         document.getElementById('site-headline').value = data.headline || '';
                         document.getElementById('site-subheadline').value = data.subheadline || '';
+                        
+                        if(data.logoUrl) {
+                            currentLogoUrl = data.logoUrl;
+                            const preview = document.getElementById('current-logo-preview');
+                            preview.src = data.logoUrl;
+                            preview.style.display = 'block';
+                        }
                     }
                 } catch(e){console.log("Sem config");}
             }
 
-            // SALVA TEXTOS (INCLUINDO SLOGAN)
+            // SALVA CONFIGURAÇÕES (TEXTO + LOGO)
             document.getElementById('config-form').addEventListener('submit', async(e)=>{
                 e.preventDefault();
-                showStatus("Salvando...");
+                showStatus("Salvando configurações...");
+                
+                let newLogoUrl = currentLogoUrl;
+                const logoFile = document.getElementById('site-logo-file').files[0];
+                
+                // Se o usuário selecionou um arquivo novo, faz upload
+                if(logoFile) {
+                    showStatus("Enviando logo para Cloudinary...");
+                    newLogoUrl = await uploadFile(logoFile);
+                }
+
                 const slogan = document.getElementById('site-slogan').value;
                 const h = document.getElementById('site-headline').value;
                 const s = document.getElementById('site-subheadline').value;
                 
                 await db.collection('config').doc('site_texts').set({
-                    slogan: slogan, // Salva o novo campo
+                    logoUrl: newLogoUrl, // Salva a URL do logo
+                    slogan: slogan,
                     headline: h,
                     subheadline: s
                 });
-                showStatus("Site atualizado!", "success");
+                
+                // Atualiza a visualização
+                currentLogoUrl = newLogoUrl;
+                const preview = document.getElementById('current-logo-preview');
+                preview.src = newLogoUrl;
+                preview.style.display = 'block';
+                document.getElementById('site-logo-file').value = ''; // Limpa o input
+
+                showStatus("Site atualizado com sucesso!", "success");
             });
 
             document.getElementById('btnLogout').addEventListener('click',()=>auth.signOut().then(()=>location.reload()));
@@ -170,7 +203,7 @@
             }
 
             document.getElementById('product-form').addEventListener('submit',async(e)=>{
-                e.preventDefault(); showStatus("Salvando...");
+                e.preventDefault(); showStatus("Salvando produto...");
                 try{
                     let img=oldImg; const f=document.getElementById('imageUrl').files[0]; if(f) img=await uploadFile(f);
                     const d={
@@ -182,7 +215,7 @@
                     await db.collection("products").doc(id).set(d,{merge:true});
                     document.getElementById('product-form').reset(); document.getElementById('productId').value=''; oldImg=''; 
                     document.getElementById('cancel-edit-btn').style.display='none';
-                    loadProducts(); showStatus("Sucesso!","success");
+                    loadProducts(); showStatus("Produto salvo!","success");
                 }catch(err){showStatus("Erro: "+err.message,"error")}
             });
 
